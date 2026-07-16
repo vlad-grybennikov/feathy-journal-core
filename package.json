@@ -1,0 +1,29 @@
+{
+  "name": "@feathy/journal-core",
+  "version": "0.1.0",
+  "description": "Platform-agnostic API client, contexts and domain logic shared by the Feathy Journal web and mobile apps.",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "react": "19.2.0",
+    "typescript": "^5"
+  }
+}
