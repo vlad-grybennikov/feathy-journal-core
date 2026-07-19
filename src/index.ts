@@ -25,12 +25,12 @@ export * from './hooks/useWeekCompletion';
 
 export type { TimeAccumulationItem } from './models/common';
 export type { TaskWithChildren } from './models/tasks';
-export type { MacroTotals } from './models/food';
+export type { MacroTotals } from './models/nutrition';
 
 export * from './utils/errors';
 export * from './utils/healthModel';
 export * from './utils/mealWindows';
-export * from './utils/recipe';
+export * from './utils/meal';
 export * from './utils/rrule';
 export * from './utils/taskHierarchy';
 export * from './utils/timeFormatter';

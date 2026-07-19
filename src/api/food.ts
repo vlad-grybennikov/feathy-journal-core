@@ -58,12 +58,14 @@ export const deleteMeal = async (id: string): Promise<void> => {
 };
 
 /* ---------------- Plan (per-user) ---------------- */
+/** A Meal scheduled on a day. `slot` is the label ("Breakfast"); `mealId` is
+ *  the Meal itself — distinctly named so they can't be confused. */
 export interface IPlannedMeal {
   _id: string;
   userId: string;
   day: string;
-  meal: string;
-  recipeId: string;
+  slot: string;
+  mealId: string;
 }
 
 export const getFoodPlan = async (): Promise<IPlannedMeal[]> => {
@@ -73,8 +75,8 @@ export const getFoodPlan = async (): Promise<IPlannedMeal[]> => {
 
 export const createPlannedMeal = async (data: {
   day: string;
-  recipeId: string;
-  meal?: string;
+  mealId: string;
+  slot?: string;
 }): Promise<IPlannedMeal> => {
   const res = await apiClient.post<{ data: IPlannedMeal }>('/v1/food/plan', data);
   return res.data.data;
