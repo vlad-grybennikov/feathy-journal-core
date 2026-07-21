@@ -27,6 +27,9 @@ export type { TimeAccumulationItem } from './models/common';
 export type { TaskWithChildren } from './models/tasks';
 export type { MacroTotals } from './models/nutrition';
 
+export * from './design/tokens';
+export * from './design/healthMeta';
+
 export * from './layout/types';
 export * from './layout/health';
 
