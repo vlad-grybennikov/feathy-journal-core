@@ -41,11 +41,21 @@ export interface SyncHeaderProps {
 }
 
 export interface ScoreRingDef {
-  /** Score metric key that drives the ring's value. */
+  /**
+   * Score metric key that drives the ring's value — or, for
+   * `kind: 'calories'`, a stable identifier (the value comes from the food
+   * log via the renderer's `calories` input instead of the health model).
+   */
   key: string;
   label: string;
   /** Ring stroke colour. */
   color: string;
+  /**
+   * 'score' (default) renders a 0-100 ScoreRing from the health model;
+   * 'calories' renders the synthetic calorie-budget ring. This is what lets
+   * Health and Today share ONE ScoreOverview component.
+   */
+  kind?: 'score' | 'calories';
   /**
    * Chart components shown below the rings when this ring is active — a mini
    * layout, rendered by the same node registry. Add a chart to a ring by
@@ -71,24 +81,11 @@ export interface MetricTrendProps {
 
 // ---- Today screen ----
 
-export interface RingRailItemDef {
-  key: string;
-  /** Measurement series key; null for the synthetic calories ring (food log). */
-  metric: string | null;
-  label: string;
-  /** 'ring' renders a score/calorie ring; 'number' a compact metric tile. */
-  mode: 'ring' | 'number';
-}
 
-export interface RingRailProps {
-  /** Everything the rail can show; the user picks a subset via Customize. */
-  catalog: RingRailItemDef[];
-  /**
-   * Preference-persistence key, shared across platforms so the mental model
-   * ("my Today rail") is one thing. Web keeps it in localStorage, mobile in
-   * AsyncStorage.
-   */
-  storageKey: string;
+export interface CaloriesTrendProps {
+  title: string;
+  /** Trailing window; the chart densifies to exactly this many days. */
+  days?: number;
 }
 
 // TodayHeader, TasksBrief and NutritionBrief take no props — everything they
@@ -103,6 +100,16 @@ export interface MetricGridProps {
   minCardWidth: number;
   /** Metric keys in display order; anything present but unlisted trails after. */
   order: string[];
+  /**
+   * Prepend a synthetic Calories card (consumed / target, trend spark from the
+   * food log). Used by Today; the renderer supplies the food data.
+   */
+  includeCalories?: boolean;
+  /**
+   * Render each card's trend sparkline (default true). Health shows charts;
+   * Today hides them for compact tiles.
+   */
+  showCharts?: boolean;
 }
 
 // SleepStages takes no props.
