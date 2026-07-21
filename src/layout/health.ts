@@ -17,9 +17,38 @@ export const healthLayout: ScreenLayout = {
     { type: 'SyncHeader', props: { source: 'oura' } },
     {
       type: 'ScoreOverview',
-      props: { metrics: ['sleep_score', 'readiness_score', 'activity_score'], snap: true },
+      props: {
+        snap: true,
+        rings: [
+          {
+            key: 'sleep_score',
+            label: 'Sleep',
+            color: '#6366f1',
+            details: [
+              { type: 'SleepStages' },
+              { type: 'MetricTrend', props: { metric: 'sleep_score', title: 'Sleep score · 7 days' } },
+            ],
+          },
+          {
+            key: 'readiness_score',
+            label: 'Readiness',
+            color: '#16a34a',
+            details: [
+              { type: 'MetricTrend', props: { metric: 'readiness_score', title: 'Readiness · 7 days' } },
+            ],
+          },
+          {
+            key: 'activity_score',
+            label: 'Activity',
+            color: '#ea580c',
+            details: [
+              { type: 'MetricTrend', props: { metric: 'steps', title: 'Steps · 7 days', format: 'number' } },
+              { type: 'MetricTrend', props: { metric: 'activity_score', title: 'Activity score · 7 days' } },
+            ],
+          },
+        ],
+      },
     },
-    { type: 'SleepStages' },
     {
       type: 'MetricGrid',
       props: {

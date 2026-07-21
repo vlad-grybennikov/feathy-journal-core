@@ -40,11 +40,33 @@ export interface SyncHeaderProps {
   source: string;
 }
 
+export interface ScoreRingDef {
+  /** Score metric key that drives the ring's value. */
+  key: string;
+  label: string;
+  /** Ring stroke colour. */
+  color: string;
+  /**
+   * Chart components shown below the rings when this ring is active — a mini
+   * layout, rendered by the same node registry. Add a chart to a ring by
+   * appending a node here; e.g. Sleep carries [SleepStages, MetricTrend].
+   */
+  details: LayoutNode[];
+}
+
 export interface ScoreOverviewProps {
-  /** Score metric keys shown as rings, in order. */
-  metrics: string[];
+  /** The rings, in order; each owns its detail charts. */
+  rings: ScoreRingDef[];
   /** Snapping carousel with page dots, vs a free scroll. */
   snap?: boolean;
+}
+
+export interface MetricTrendProps {
+  /** Series key to plot as a 7-day line. */
+  metric: string;
+  title: string;
+  /** Axis-label formatting; 'duration' renders seconds as "6h 44m". */
+  format?: 'number' | 'duration';
 }
 
 export interface MetricGridProps {
