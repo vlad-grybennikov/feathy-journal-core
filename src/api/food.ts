@@ -86,6 +86,30 @@ export const deletePlannedMeal = async (id: string): Promise<void> => {
   await apiClient.delete(`/v1/food/plan/${id}`);
 };
 
+/* ---------------- Trends (per-user, daily aggregates) ---------------- */
+
+/** One logged day's macro totals. Days with nothing logged are absent, not zero. */
+export interface IFoodTrendPoint {
+  /** YYYY-MM-DD (UTC day, matching how logged-meal dates are stored). */
+  date: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
+
+/**
+ * Daily macro totals over the trailing window, ascending by date. Weight is
+ * NOT here — it lives in measurements (`getMeasurements({ type: 'weight' })`),
+ * fed by Oura/Apple.
+ */
+export const getFoodTrends = async (days = 14): Promise<IFoodTrendPoint[]> => {
+  const res = await apiClient.get<{ data: IFoodTrendPoint[] }>('/v1/food/trends', {
+    params: { days },
+  });
+  return res.data.data ?? [];
+};
+
 /* ---------------- Targets (per-user) ---------------- */
 export interface INutritionTarget {
   _id: string;
