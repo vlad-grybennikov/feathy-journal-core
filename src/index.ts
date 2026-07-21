@@ -32,6 +32,7 @@ export * from './design/healthMeta';
 
 export * from './layout/types';
 export * from './layout/health';
+export * from './layout/today';
 
 export * from './utils/errors';
 export * from './utils/healthModel';

@@ -1,6 +1,6 @@
 {
   "name": "@feathy/journal-core",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Platform-agnostic API client, contexts and domain logic shared by the Feathy Journal web and mobile apps.",
   "license": "UNLICENSED",
   "private": true,

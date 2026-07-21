@@ -69,6 +69,31 @@ export interface MetricTrendProps {
   format?: 'number' | 'duration';
 }
 
+// ---- Today screen ----
+
+export interface RingRailItemDef {
+  key: string;
+  /** Measurement series key; null for the synthetic calories ring (food log). */
+  metric: string | null;
+  label: string;
+  /** 'ring' renders a score/calorie ring; 'number' a compact metric tile. */
+  mode: 'ring' | 'number';
+}
+
+export interface RingRailProps {
+  /** Everything the rail can show; the user picks a subset via Customize. */
+  catalog: RingRailItemDef[];
+  /**
+   * Preference-persistence key, shared across platforms so the mental model
+   * ("my Today rail") is one thing. Web keeps it in localStorage, mobile in
+   * AsyncStorage.
+   */
+  storageKey: string;
+}
+
+// TodayHeader, TasksBrief and NutritionBrief take no props — everything they
+// show is derived from the screen context (user, tasks, meals, model).
+
 export interface MetricGridProps {
   /**
    * Minimum card width in px; the grid fits as many columns as fit, so phones
