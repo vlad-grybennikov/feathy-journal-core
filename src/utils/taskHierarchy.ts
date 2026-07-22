@@ -108,7 +108,7 @@ export function buildRoutineHierarchy(routineList: IRoutine[]): RoutineWithChild
 export function flattenRoutineHierarchy(routines: Array<IRoutine & { children?: RoutineWithChildren[] }>) {
   const flattened: IRoutine[] = [];
 
-  const traverse = (routineList: RoutineWithChildren[]) => {
+  const traverse = (routineList: Array<IRoutine & { children?: RoutineWithChildren[] }>) => {
     for (const routine of routineList) {
       const { children, ...routineWithoutChildren } = routine;
       flattened.push(routineWithoutChildren);
