@@ -64,12 +64,48 @@ export function flattenTaskHierarchy(tasks: TaskWithChildren[]) {
   return flattened;
 }
 
-type RoutineWithChildren = IRoutine & { children?: RoutineWithChildren[] };
+export type RoutineWithChildren = IRoutine & { children: RoutineWithChildren[] };
+
+/**
+ * Flat routine list -> nested tree, sorted like buildTaskHierarchy (critical
+ * first, then nodes with children, recursively). Consolidated from the web
+ * Routines page's inline copy so both platforms present the same order.
+ */
+export function buildRoutineHierarchy(routineList: IRoutine[]): RoutineWithChildren[] {
+  const byId = new Map<string, RoutineWithChildren>();
+  routineList.forEach((routine) => byId.set(routine._id, { ...routine, children: [] }));
+
+  const roots: RoutineWithChildren[] = [];
+  routineList.forEach((routine) => {
+    const node = byId.get(routine._id)!;
+    if (routine.parentId && byId.has(routine.parentId)) {
+      byId.get(routine.parentId)!.children.push(node);
+    } else {
+      roots.push(node);
+    }
+  });
+
+  const sortLevel = (nodes: RoutineWithChildren[]): RoutineWithChildren[] =>
+    nodes.sort((a, b) => {
+      const ap = PRIORITY_ORDER[a.priority] ?? 1;
+      const bp = PRIORITY_ORDER[b.priority] ?? 1;
+      if (ap !== bp) return ap - bp;
+      return (a.children.length > 0 ? 0 : 1) - (b.children.length > 0 ? 0 : 1);
+    });
+
+  const sortRecursively = (nodes: RoutineWithChildren[]) => {
+    sortLevel(nodes);
+    nodes.forEach((n) => sortRecursively(n.children));
+  };
+  sortRecursively(roots);
+
+  return roots;
+}
 
 /**
  * Flattens a hierarchical routine structure into a flat list of all routines
  */
-export function flattenRoutineHierarchy(routines: RoutineWithChildren[]) {
+export function flattenRoutineHierarchy(routines: Array<IRoutine & { children?: RoutineWithChildren[] }>) {
   const flattened: IRoutine[] = [];
 
   const traverse = (routineList: RoutineWithChildren[]) => {
